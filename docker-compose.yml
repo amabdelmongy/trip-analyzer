@@ -1,0 +1,7 @@
+version: '2'
+
+services:
+    trip_analyzer_api:
+        build: .
+        ports: 
+            - "8000:80"
