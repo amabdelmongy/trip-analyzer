@@ -4,4 +4,4 @@ services:
     trip_analyzer_api:
         build: .
         ports: 
-            - "8000:80"
+            - "8400:80"
