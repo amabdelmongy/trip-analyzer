@@ -83,8 +83,7 @@ public class VehiclePushAnalysisService : IVehiclePushAnalysisService
                 {
                     x.PositionLat,
                     x.PositionLong,
-                    x.Odometer,
-                    x.FuelLevel
+                    x.Odometer
                 }, (key, group) =>
                 new
                 {

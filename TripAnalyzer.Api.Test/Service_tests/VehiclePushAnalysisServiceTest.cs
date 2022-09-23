@@ -148,8 +148,13 @@ public class Tests
         Assert.That(refuelStops.StartTimestamp, Is.EqualTo(input.Data.First().Timestamp));
         Assert.That(refuelStops.EndTimestamp, Is.EqualTo(input.Data.Last().Timestamp));
 
-
-        Assert.That(actual.Value.Breaks.Count, Is.EqualTo(0));
+        //a list of all breaks during the trip including the refuel stops
+        Assert.That(actual.Value.Breaks.Count, Is.EqualTo(1));
+        var breakFirst = actual.Value.Breaks.First();
+        Assert.That(breakFirst.PositionLat, Is.EqualTo(input.Data.First().PositionLat));
+        Assert.That(breakFirst.PositionLong, Is.EqualTo(input.Data.First().PositionLong));
+        Assert.That(breakFirst.StartTimestamp, Is.EqualTo(input.Data.First().Timestamp));
+        Assert.That(breakFirst.EndTimestamp, Is.EqualTo(input.Data.Last().Timestamp));
     }
     //todo add more unit tests
 }
