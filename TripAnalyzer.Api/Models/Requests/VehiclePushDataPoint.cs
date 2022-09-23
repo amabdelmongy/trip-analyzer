@@ -4,6 +4,19 @@ namespace TripAnalyzer.Api.Models.Requests;
 
 public class VehiclePushDataPoint
 {
+    public VehiclePushDataPoint()
+    {
+    }
+
+    public VehiclePushDataPoint(int? odometer, float? positionLat, float? positionLong, long? timestamp, int? fuelLevel)
+    {
+        Odometer = odometer;
+        PositionLat = positionLat;
+        PositionLong = positionLong;
+        Timestamp = timestamp;
+        FuelLevel = fuelLevel;
+    }
+
     /// <summary>
     /// unix timestamp
     /// </summary>

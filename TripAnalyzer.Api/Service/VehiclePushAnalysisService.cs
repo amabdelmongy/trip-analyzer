@@ -45,16 +45,24 @@ public class VehiclePushAnalysisService : IVehiclePushAnalysisService
                     }, (key, group) =>
                     new
                     {
-                        key.PositionLat,
-                        key.PositionLong,
-                        FuelLevelFirst = group.First().FuelLevel,
-                        FuelLevelLast = group.Last().FuelLevel,
-                        StartTimestamp = group.First().Timestamp,
-                        EndTimestamp = group.Last().Timestamp
-                    }).ToList();
+                        key,
+                        group
+                    })
+                .Where(t => t.group.Count() > 1);
 
         var dataWithDifferentFuelLevel =
             dataGrouped
+                .Select(t =>
+                    new
+                    {
+                        t.key.PositionLat,
+                        t.key.PositionLong,
+                        StartTimestamp = t.group.First().Timestamp,
+                        EndTimestamp = t.group.Last().Timestamp,
+                        FuelLevelFirst = t.group.First().FuelLevel,
+                        FuelLevelLast = t.group.Last().FuelLevel
+
+                    })
                 .Where(t => t.FuelLevelLast > t.FuelLevelFirst).ToList();
 
         return dataWithDifferentFuelLevel
@@ -78,12 +86,19 @@ public class VehiclePushAnalysisService : IVehiclePushAnalysisService
                     x.Odometer,
                     x.FuelLevel
                 }, (key, group) =>
+                new
+                {
+                    key,
+                    group
+                })
+            .Where(t => t.group.Count() > 1)
+            .Select(t =>
                 new Break
                 {
-                    PositionLat = key.PositionLat,
-                    PositionLong = key.PositionLong,
-                    StartTimestamp = group.First().Timestamp,
-                    EndTimestamp = group.Last().Timestamp
+                    PositionLat = t.key.PositionLat,
+                    PositionLong = t.key.PositionLong,
+                    StartTimestamp = t.group.First().Timestamp,
+                    EndTimestamp = t.group.Last().Timestamp
                 })
             .ToList();
 
@@ -100,7 +115,7 @@ public class VehiclePushAnalysisService : IVehiclePushAnalysisService
         if (string.IsNullOrEmpty(vehiclePush.Vin))
             errors.Add(Error.CreateFrom(ErrorCodes.VehiclepushVinDoesNotHaveValue));
 
-        if (vehiclePush.Data.Count < 1 )
+        if (vehiclePush.Data.Count < 1)
             errors.Add(Error.CreateFrom(ErrorCodes.VehiclepushDataIsLessThan));
 
 

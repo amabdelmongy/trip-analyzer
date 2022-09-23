@@ -32,6 +32,8 @@ public class Tests
         Assert.That(actual.Value.Vin, Is.EqualTo(input.Vin));
         Assert.That(actual.Value.Destination, Is.EqualTo(_address));
         Assert.That(actual.Value.Departure, Is.EqualTo(_address));
+        Assert.That(actual.Value.RefuelStops.Count, Is.EqualTo(0));
+        Assert.That(actual.Value.Breaks.Count, Is.EqualTo(0));
     }
 
     [Test]
@@ -79,22 +81,8 @@ public class Tests
 
         input.Data = new List<VehiclePushDataPoint>
         {
-            new ()
-            {
-                Odometer = 50,
-                PositionLat = 123,
-                PositionLong = 22,
-                Timestamp = 100122,
-                FuelLevel = 50
-            },
-            new ()
-            {
-                Odometer = 50,
-                PositionLat = 123,
-                PositionLong = 22,
-                Timestamp = 100123,
-                FuelLevel = 50
-            },
+            new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 100122, fuelLevel: 50),
+            new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 100123, fuelLevel: 50),
         };
 
         var actual = _vehiclePushAnalysisService.Analysis(input);
@@ -108,7 +96,34 @@ public class Tests
         Assert.That(breakFirst.StartTimestamp, Is.EqualTo(input.Data.First().Timestamp));
         Assert.That(breakFirst.EndTimestamp, Is.EqualTo(input.Data.Last().Timestamp));
 
-        //Assert.That(actual.Value.RefuelStops, Is.EqualTo(null));
+        Assert.That(actual.Value.RefuelStops.Count, Is.EqualTo(0));
+    }
+
+    [Test]
+    public void WHEN_analysis_vehiclePush_with_break_different_Odometer_THEN_return_VehiclePushAnalysis()
+    {
+        var input = _fixture.Create<VehiclePush>();
+
+        input.Data = new List<VehiclePushDataPoint>
+        {
+            new(odometer: 10050, positionLat: 123, positionLong: 22, timestamp: 100122, fuelLevel: 50),
+            new(odometer: 10050, positionLat: 123, positionLong: 22, timestamp: 100123, fuelLevel: 50),
+            new(odometer: 20050, positionLat: 123, positionLong: 22, timestamp: 200122, fuelLevel: 80),
+            new(odometer: 20050, positionLat: 123, positionLong: 22, timestamp: 200123, fuelLevel: 80),
+        };
+
+        var actual = _vehiclePushAnalysisService.Analysis(input);
+
+        Assert.True(actual.IsOk);
+        Assert.That(actual.Value.Breaks.Count, Is.EqualTo(2));
+
+        var breakFirst = actual.Value.Breaks.First();
+        Assert.That(breakFirst.PositionLat, Is.EqualTo(input.Data.First().PositionLat));
+        Assert.That(breakFirst.PositionLong, Is.EqualTo(input.Data.First().PositionLong));
+        Assert.That(breakFirst.StartTimestamp, Is.EqualTo(input.Data.First().Timestamp));
+        Assert.That(breakFirst.EndTimestamp, Is.EqualTo(input.Data[1].Timestamp));
+
+        Assert.That(actual.Value.RefuelStops.Count, Is.EqualTo(0));
     }
 
     [Test]
@@ -118,22 +133,8 @@ public class Tests
 
         input.Data = new List<VehiclePushDataPoint>
         {
-            new ()
-            {
-                Odometer = 10000,
-                PositionLat = 123,
-                PositionLong = 22,
-                Timestamp = 100122,
-                FuelLevel = 20
-            },
-            new ()
-            {
-                Odometer = 10000,
-                PositionLat = 123,
-                PositionLong = 22,
-                Timestamp = 100123,
-                FuelLevel = 90
-            },
+            new(odometer: 10000, positionLat: 123, positionLong: 22, timestamp: 100122, fuelLevel: 20),
+            new(odometer: 10000, positionLat: 123, positionLong: 22, timestamp: 100123, fuelLevel: 90),
         };
 
         var actual = _vehiclePushAnalysisService.Analysis(input);
@@ -148,7 +149,7 @@ public class Tests
         Assert.That(refuelStops.EndTimestamp, Is.EqualTo(input.Data.Last().Timestamp));
 
 
-        //Assert.That(actual.Value.Breaks, Is.EqualTo(null));
+        Assert.That(actual.Value.Breaks.Count, Is.EqualTo(0));
     }
     //todo add more unit tests
 }
