@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "instance" {
-  name            = "${var.prefix}-${var.environment}-trip-analyzer-ecr-repository"
+  name            = "${var.prefix}-${var.environment}-ecr-repository"
   tags            = var.tags
 }
 
