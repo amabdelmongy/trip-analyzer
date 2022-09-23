@@ -8,6 +8,8 @@ module "vpc" {
 module "ecr" {
   source                              = "./ecr"
   tags                                = var.tags
+  prefix                              = var.prefix
+  environment                         = var.environment
 }
 
 module "ecs" {
@@ -36,8 +38,10 @@ module "alb" {
   public_subnets                      = module.vpc.public_subnets
   vpc_id                              = module.vpc.vpc_id
   tags                                = var.tags
+  prefix                              = var.prefix
+  environment                         = var.environment
 }
 
 output "ecr_repository_name" {
-  value = module.ecr.ecr_repository_name
+  value                               = module.ecr.ecr_repository_name
 }
