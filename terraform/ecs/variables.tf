@@ -1,20 +1,13 @@
-#Defining and declaring variables
-
 variable "environment" {
-  description = "Name of the application environment. e.g. dev, prod, test, staging"
-  default     = "dev"
+  description = "Name of the application environment. e.g. dev, prod, test, staging" 
 }
 
 variable "prefix" {
-  description = "Prefix for all the resources to be created. Please note thst 2 allows only lowercase alphanumeric characters and hyphen"
-  default     = "trip-analyzer"
+  description = "Prefix for all the resources to be created. Please note thst 2 allows only lowercase alphanumeric characters and hyphen" 
 }
 
 variable "tags" {
-  default = {
-    Environment = "Dev"
-    Project     = "trip-analyzer-project"
-  }
+  description = "tags"
 }
 
 variable "desired_count" {

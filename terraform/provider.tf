@@ -13,7 +13,6 @@ terraform {
   }
 }
 
-# Configure the AWS Credentials
 provider "aws" {
-  region   = "eu-central-1"
+  region   = var.region
 }

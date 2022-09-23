@@ -7,8 +7,5 @@ variable "vpc_id" {
 }
 
 variable "tags" {
-  default = {
-    Environment = "Dev"
-    Project     = "trip-analyzer-project"
-  }
+  description = "tags"
 }
