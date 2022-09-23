@@ -5,7 +5,15 @@ module "vpc" {
   environment                          = var.environment
 }
 
+module "ecr" {
+  source                              = "./ecr"
+  tags                                = var.tags
+}
+
 module "ecs" {
+  depends_on = [
+    module.ecr.aws_ecr_repository
+  ]
   source                               = "./ecs"
   vpc_id                               = module.vpc.vpc_id
   private_subnets                      = module.vpc.private_subnets
@@ -13,8 +21,8 @@ module "ecs" {
   security_group_vpc                               = module.vpc.security_group_vpc
   aws_alb_target_group_arn             = module.alb.aws_alb_target_group_arn
   aws_security_group_alb_id            = module.alb.aws_security_group_alb_id
-  aws_ecr_repository_url               = aws_ecr_repository.instance.repository_url
-  aws_ecr_image_digest                 = aws_ecr_repository.instance.repository_url
+  aws_ecr_repository_url               = module.ecr.aws_ecr_repository_url
+  aws_ecr_image_digest                 = module.ecr.aws_ecr_image_digest
   tags                                 = var.tags
   prefix                               = var.prefix
   environment                          = var.environment
@@ -31,5 +39,5 @@ module "alb" {
 }
 
 output "ecr_repository_name" {
-  value = aws_ecr_repository.instance.name
+  value = module.ecr.ecr_repository_name
 }
