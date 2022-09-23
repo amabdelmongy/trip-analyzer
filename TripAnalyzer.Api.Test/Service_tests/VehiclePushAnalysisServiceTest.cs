@@ -72,5 +72,83 @@ public class Tests
         Assert.True(actual.Errors.ToList().Any(t => t.Subject == ErrorCodes.VehiclepushDataPositionlatDoesNotHaveValue));
     }
 
+    [Test]
+    public void WHEN_analysis_vehiclePush_with_break_THEN_return_VehiclePushAnalysis()
+    {
+        var input = _fixture.Create<VehiclePush>();
+
+        input.Data = new List<VehiclePushDataPoint>
+        {
+            new ()
+            {
+                Odometer = 50,
+                PositionLat = 123,
+                PositionLong = 22,
+                Timestamp = 100122,
+                FuelLevel = 50
+            },
+            new ()
+            {
+                Odometer = 50,
+                PositionLat = 123,
+                PositionLong = 22,
+                Timestamp = 100123,
+                FuelLevel = 50
+            },
+        };
+
+        var actual = _vehiclePushAnalysisService.Analysis(input);
+
+        Assert.True(actual.IsOk);
+        Assert.That(actual.Value.Breaks.Count, Is.EqualTo(1));
+
+        var breakFirst = actual.Value.Breaks.First();
+        Assert.That(breakFirst.PositionLat, Is.EqualTo(input.Data.First().PositionLat));
+        Assert.That(breakFirst.PositionLong, Is.EqualTo(input.Data.First().PositionLong));
+        Assert.That(breakFirst.StartTimestamp, Is.EqualTo(input.Data.First().Timestamp));
+        Assert.That(breakFirst.EndTimestamp, Is.EqualTo(input.Data.Last().Timestamp));
+
+        //Assert.That(actual.Value.RefuelStops, Is.EqualTo(null));
+    }
+
+    [Test]
+    public void WHEN_analysis_vehiclePush_with_refuelStops_THEN_return_VehiclePushAnalysis()
+    {
+        var input = _fixture.Create<VehiclePush>();
+
+        input.Data = new List<VehiclePushDataPoint>
+        {
+            new ()
+            {
+                Odometer = 10000,
+                PositionLat = 123,
+                PositionLong = 22,
+                Timestamp = 100122,
+                FuelLevel = 20
+            },
+            new ()
+            {
+                Odometer = 10000,
+                PositionLat = 123,
+                PositionLong = 22,
+                Timestamp = 100123,
+                FuelLevel = 90
+            },
+        };
+
+        var actual = _vehiclePushAnalysisService.Analysis(input);
+
+        Assert.True(actual.IsOk);
+        Assert.That(actual.Value.RefuelStops.Count, Is.EqualTo(1));
+
+        var refuelStops = actual.Value.RefuelStops.First();
+        Assert.That(refuelStops.PositionLat, Is.EqualTo(input.Data.First().PositionLat));
+        Assert.That(refuelStops.PositionLong, Is.EqualTo(input.Data.First().PositionLong));
+        Assert.That(refuelStops.StartTimestamp, Is.EqualTo(input.Data.First().Timestamp));
+        Assert.That(refuelStops.EndTimestamp, Is.EqualTo(input.Data.Last().Timestamp));
+
+
+        //Assert.That(actual.Value.Breaks, Is.EqualTo(null));
+    }
     //todo add more unit tests
 }
