@@ -10,9 +10,9 @@ resource "aws_lb" "main" {
 }
 
 resource "aws_security_group" "alb" {
-  name        = "${var.prefix}-${var.environment}-securityGroup-alb"
-  description = "Allow HTTP inbound traffc"
-  vpc_id      = var.vpc_id
+  name              = "${var.prefix}-${var.environment}-securityGroup-alb"
+  description       = "Allow HTTP inbound traffc"
+  vpc_id            = var.vpc_id
 
   egress {
     from_port   = 0

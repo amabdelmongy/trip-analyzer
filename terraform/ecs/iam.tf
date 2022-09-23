@@ -1,11 +1,11 @@
 data "aws_iam_policy_document" "assume_role_policy_document" {
   version = "2012-10-17"
   statement {
-    effect  = "Allow"
-    actions = ["sts:AssumeRole"]
+    effect          = "Allow"
+    actions         = ["sts:AssumeRole"]
     principals {
-      identifiers = ["ecs-tasks.amazonaws.com"]
-      type        = "Service"
+      identifiers   = ["ecs-tasks.amazonaws.com"]
+      type          = "Service"
     }
   }
 }
@@ -16,6 +16,6 @@ resource "aws_iam_role" "task_execution_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "instance" {
-  role       = aws_iam_role.task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  role              = aws_iam_role.task_execution_role.name
+  policy_arn        = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
