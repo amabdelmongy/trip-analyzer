@@ -60,9 +60,13 @@ resource "aws_ecs_task_definition" "this" {
   container_definitions = jsonencode([{
       name  = "trip-analyzer"
       image = join("@", [var.aws_ecr_repository_url, var.aws_ecr_image_digest])
-      portMappings = [{
-        containerPort = 80
-      }]
+      portMappings = [
+        {
+          containerPort: 80,
+          protocol: "tcp",
+          hostPort: 80
+        }
+    ]
     }])
 }
 
