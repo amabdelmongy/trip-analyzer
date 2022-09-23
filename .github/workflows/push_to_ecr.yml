@@ -43,11 +43,16 @@ jobs:
         run: echo "ECR_NAME=$(terraform output -raw ecr_repository_name)" >> $GITHUB_ENV
         working-directory: ./terraform
 
-      - name: Install packages
-        run: npm ci
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
 
-      - name: Compile project
-        run: npm run compile
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
 
       - name: Login to Amazon ECR
         id: login-ecr
