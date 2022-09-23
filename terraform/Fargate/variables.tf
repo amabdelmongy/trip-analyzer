@@ -75,3 +75,10 @@ variable "aws_alb_target_group_arn" {
 variable "aws_security_group_alb_id" {
   description = "id of security group of the alb"
 }
+
+variable "aws_ecr_repository_url" {
+  description = "aws ecr repository url"
+}
+variable "aws_ecr_image_digest" {
+  description = "aws ecr image digest"
+}

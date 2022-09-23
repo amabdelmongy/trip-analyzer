@@ -45,6 +45,7 @@ resource "aws_alb_target_group" "main" {
     timeout             = "10"
     port                = 80
     unhealthy_threshold = "4"
+    path                = "/health"
   }
 }
 

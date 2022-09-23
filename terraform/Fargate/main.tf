@@ -1,101 +1,3 @@
-resource "aws_iam_role" "task_execution_role" {
-  name = "${var.prefix}-task-execution-role-${var.environment}"
-  tags = var.tags
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": [
-          "ecs-tasks.amazonaws.com"
-        ]
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
-}
-
-resource "aws_iam_policy" "task_execution_policy" {
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ecr:GetAuthorizationToken",
-        "ecr:BatchCheckLayerAvailability",
-        "ecr:GetDownloadUrlForLayer",
-        "ecr:BatchGetImage",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents",
-        "ssm:GetParameters",
-        "kms:Decrypt"
-      ],
-      "Resource": "*"
-    }
-  ]
-  }
-EOF
-}
-
-resource "aws_iam_role_policy_attachment" "task_execution_policy_attach" {
-  role       = aws_iam_role.task_execution_role.name
-  policy_arn = aws_iam_policy.task_execution_policy.arn
-}
-
-
-resource "aws_iam_role" "task_role" {
-  name = "${var.prefix}-task-role-${var.environment}"
-  tags = var.tags
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": [
-          "ecs-tasks.amazonaws.com"
-        ]
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
-}
-
-resource "aws_iam_policy" "task_policy" {
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "elasticfilesystem:ClientMount",
-        "elasticfilesystem:ClientWrite"
-      ],
-      "Resource": "*"
-    }
-  ]
-  }
-EOF
-}
-
-resource "aws_iam_role_policy_attachment" "task_policy_attach" {
-  role       = aws_iam_role.task_role.name
-  policy_arn = aws_iam_policy.task_policy.arn
-}
-
-
 resource "aws_ecs_cluster" "this" {
   name = "${var.prefix}-${var.environment}"
 }
@@ -150,26 +52,42 @@ resource "aws_ecs_service" "this" {
 resource "aws_ecs_task_definition" "this" {
   family                   = "${var.prefix}-${var.environment}"
   execution_role_arn       = aws_iam_role.task_execution_role.arn
-  task_role_arn            = aws_iam_role.task_role.arn
+  task_role_arn            = aws_iam_role.task_execution_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.task_cpu
   memory                   = var.task_memory
-  container_definitions    = <<CONTAINER_DEFINITION
-[
-  {
-    "essential": true,
-    "image": "trip-analyzer",
-    "name": "trip-analyzer",
-    "portMappings": [
-      {
-        "containerPort": 80,
-        "protocol": "tcp",
-        "hostPort": 80
-      }
-    ]
-  }
-]
-CONTAINER_DEFINITION
+  container_definitions = jsonencode([{
+      name  = "trip-analyzer"
+      image = join("@", [var.aws_ecr_repository_url, var.aws_ecr_image_digest])
+      portMappings = [{
+        containerPort = 8400
+      }]
+    }])
+}
 
+resource "aws_appautoscaling_target" "instance" {
+  max_capacity       = 5
+  min_capacity       = 1
+  resource_id        = "service/${aws_ecs_cluster.this.name}/${aws_ecs_service.this.name}"
+  service_namespace  = "ecs"
+  scalable_dimension = "ecs:service:DesiredCount"
+}
+
+resource "aws_appautoscaling_policy" "instance" {
+  name               = "${var.prefix}-${var.environment}-ecs-cpu-auto-scaling"
+  policy_type        = "TargetTrackingScaling"
+  service_namespace  = aws_appautoscaling_target.instance.service_namespace
+  scalable_dimension = aws_appautoscaling_target.instance.scalable_dimension
+  resource_id        = aws_appautoscaling_target.instance.resource_id
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
+
+    target_value       = 80
+    scale_in_cooldown  = 300
+    scale_out_cooldown = 300
+  }
 }
