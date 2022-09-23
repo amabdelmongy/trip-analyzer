@@ -10,7 +10,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./app
+        working-directory: ./
 
     steps:
       - name: trip-analyzer-Repository
@@ -33,11 +33,6 @@ jobs:
         id: init
         run: terraform init
         working-directory: ./terraform
-
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: "14"
 
       - name: Generate ECS Task Definition
         id: apply-partial
@@ -68,7 +63,7 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-        working-directory: ./app
+        working-directory: ./
 
       - name: Fill in the new image ID in the Amazon ECS task definition ✒
         id: task-def
