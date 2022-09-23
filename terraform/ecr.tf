@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "instance" {
-  name = "ecr-repository"
+  name = "trip-analyzer-ecr-dev"
 }
 
 data "aws_ecr_repository" "instance" {
@@ -8,5 +8,5 @@ data "aws_ecr_repository" "instance" {
 
 data "aws_ecr_image" "instance" {
   repository_name = aws_ecr_repository.instance.name
-  image_tag       = "init"
+  image_tag       = "trip-analyzer"
 }

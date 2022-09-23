@@ -305,3 +305,8 @@ specs/dist
 
 # Ignore certificates automatically created by mockserver
 CertificateAuthorityCertificate.pem
+TripAnalyzer.Api/obj/Debug/net6.0/TripAnalyzer.Api.assets.cache
+TripAnalyzer.Api.Test/obj/Debug/net6.0/TripAnalyzer.Api.UnitTest.assets.cache
+TripAnalyzer.Api.Test/obj/Debug/net6.0/TripAnalyzer.Api.UnitTest.assets.cache
+TripAnalyzer.Api.Integration.Test/obj/Debug/net6.0/TripAnalyzer.Api.Integration.Test.assets.cache
+TripAnalyzer.Api/obj/Debug/net6.0/TripAnalyzer.Api.assets.cache

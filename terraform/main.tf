@@ -1,27 +1,24 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws" 
-    }
-  }
-  backend "s3" {
-    bucket = "amabdelmongy-terraform-state"
-    key    = "terraform-aws-docker-deploy/terraform.tfstate"
-    region = "eu-central-1"
-  }
+module "vpc" {
+  source = "./vpc"
 }
 
-provider "aws" {
-  region = "eu-central-1"
-  default_tags {
-    tags = {
-      CreatedBy = "terraform"
-    }
-  }
+module "fargate" {
+  source                               = "./Fargate"
+  vpc_id                               = module.vpc.vpc_id
+  private_subnets                      = module.vpc.private_subnets
+  public_subnets                       = module.vpc.public_subnets
+  sg_foo                               = module.vpc.sg_foo
+  aws_alb_target_group_arn             = module.alb.aws_alb_target_group_arn
+  aws_security_group_alb_id            = module.alb.aws_security_group_alb_id
 }
 
-output "alb_dns" {
-  value = aws_lb.instance.dns_name
+module "alb" {
+  depends_on = [
+    module.vpc.vpc_id
+  ]
+  source         = "./alb"
+  public_subnets = module.vpc.public_subnets
+  vpc_id         = module.vpc.vpc_id
 }
 
 output "ecr_repository_name" {
