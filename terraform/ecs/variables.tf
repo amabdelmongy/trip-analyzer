@@ -57,7 +57,7 @@ variable "vpc_id" {
   description = "vpc id"
 }
 
-variable "sg_foo" {
+variable "security_group_vpc" {
   description = "security group for vpc"
 }
 

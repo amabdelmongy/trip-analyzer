@@ -20,7 +20,7 @@ module "vpc" {
   external_nat_ip_ids     = aws_eip.nat.*.id
 }
 
-resource "aws_security_group" "sg_foo" {
+resource "aws_security_group" "security_group_vpc" {
   depends_on = [
     module.vpc.name,
   ]

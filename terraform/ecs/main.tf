@@ -34,7 +34,7 @@ resource "aws_ecs_service" "this" {
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
   network_configuration {
-    security_groups = [ var.sg_foo,
+    security_groups = [ var.security_group_vpc,
                         var.aws_security_group_alb_id,
                         aws_security_group.trip-analyzer.id]
     subnets         = var.private_subnets

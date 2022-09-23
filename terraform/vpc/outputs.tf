@@ -10,8 +10,8 @@ output "vpc_id" {
   value = module.vpc.vpc_id
 }
 
-output "sg_foo" {
-  value = aws_security_group.sg_foo.id
+output "security_group_vpc" {
+  value = aws_security_group.security_group_vpc.id
 }
 
 output "azs" {
