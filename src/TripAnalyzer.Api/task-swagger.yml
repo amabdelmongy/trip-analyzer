@@ -4,7 +4,6 @@ info:
     - Implement the specified REST Endpoint
     - Protect the API with BasicAuth
     - Use Docker to run your application
-    - Use one of the following languages&#58; Go, Java, Python, C++
     - Automate the infrastructure rollout
     - Use an external service to determine the city name for depature and destination
     - Please also consider quality checks for your application
