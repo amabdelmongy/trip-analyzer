@@ -1861,10 +1861,21 @@
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
       },
+      "Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Domain.dll": {}
+        }
+      },
       "TripAnalyzer.Api/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "Domain": "1.0.0",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.17.0",
           "Newtonsoft.Json": "9.0.1",
           "Serilog": "2.12.0",
@@ -6128,6 +6139,11 @@
         "system.xml.xdocument.nuspec"
       ]
     },
+    "Domain/1.0.0": {
+      "type": "project",
+      "path": "../Domain/Domain.csproj",
+      "msbuildProject": "../Domain/Domain.csproj"
+    },
     "TripAnalyzer.Api/1.0.0": {
       "type": "project",
       "path": "../TripAnalyzer.Api/TripAnalyzer.Api.csproj",
@@ -6153,11 +6169,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\h\\TripAnalyzer\\TripAnalyzer.Api.Integration.Test\\TripAnalyzer.Api.Integration.Test.csproj",
+      "projectUniqueName": "C:\\code\\trip-analyzer\\TripAnalyzer.Api.Integration.Test\\TripAnalyzer.Api.Integration.Test.csproj",
       "projectName": "TripAnalyzer.Api.Integration.Test",
-      "projectPath": "C:\\h\\TripAnalyzer\\TripAnalyzer.Api.Integration.Test\\TripAnalyzer.Api.Integration.Test.csproj",
+      "projectPath": "C:\\code\\trip-analyzer\\TripAnalyzer.Api.Integration.Test\\TripAnalyzer.Api.Integration.Test.csproj",
       "packagesPath": "C:\\Users\\49176\\.nuget\\packages\\",
-      "outputPath": "C:\\h\\TripAnalyzer\\TripAnalyzer.Api.Integration.Test\\obj\\",
+      "outputPath": "C:\\code\\trip-analyzer\\TripAnalyzer.Api.Integration.Test\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\49176\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6174,8 +6190,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\h\\TripAnalyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj": {
-              "projectPath": "C:\\h\\TripAnalyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj"
+            "C:\\code\\trip-analyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj": {
+              "projectPath": "C:\\code\\trip-analyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj"
             }
           }
         }

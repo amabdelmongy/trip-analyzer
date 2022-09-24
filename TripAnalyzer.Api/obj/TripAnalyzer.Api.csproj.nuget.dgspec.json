@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\h\\TripAnalyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj": {}
+    "C:\\code\\trip-analyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj": {}
   },
   "projects": {
-    "C:\\h\\TripAnalyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj": {
+    "C:\\code\\trip-analyzer\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\h\\TripAnalyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj",
-        "projectName": "TripAnalyzer.Api",
-        "projectPath": "C:\\h\\TripAnalyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj",
+        "projectUniqueName": "C:\\code\\trip-analyzer\\Domain\\Domain.csproj",
+        "projectName": "Domain",
+        "projectPath": "C:\\code\\trip-analyzer\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\49176\\.nuget\\packages\\",
-        "outputPath": "C:\\h\\TripAnalyzer\\TripAnalyzer.Api\\obj\\",
+        "outputPath": "C:\\code\\trip-analyzer\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\49176\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,6 +28,65 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\code\\trip-analyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\code\\trip-analyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj",
+        "projectName": "TripAnalyzer.Api",
+        "projectPath": "C:\\code\\trip-analyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj",
+        "packagesPath": "C:\\Users\\49176\\.nuget\\packages\\",
+        "outputPath": "C:\\code\\trip-analyzer\\TripAnalyzer.Api\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\49176\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "C:\\code\\trip-analyzer\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\code\\trip-analyzer\\Domain\\Domain.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

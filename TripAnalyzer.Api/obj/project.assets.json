@@ -893,6 +893,16 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
+      },
+      "Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Domain.dll": {}
+        }
       }
     }
   },
@@ -3430,10 +3440,16 @@
         "system.xml.xdocument.4.0.11.nupkg.sha512",
         "system.xml.xdocument.nuspec"
       ]
+    },
+    "Domain/1.0.0": {
+      "type": "project",
+      "path": "../Domain/Domain.csproj",
+      "msbuildProject": "../Domain/Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "Domain >= 1.0.0",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.17.0",
       "Newtonsoft.Json >= 9.0.1",
       "Serilog >= 2.12.0",
@@ -3448,11 +3464,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\h\\TripAnalyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj",
+      "projectUniqueName": "C:\\code\\trip-analyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj",
       "projectName": "TripAnalyzer.Api",
-      "projectPath": "C:\\h\\TripAnalyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj",
+      "projectPath": "C:\\code\\trip-analyzer\\TripAnalyzer.Api\\TripAnalyzer.Api.csproj",
       "packagesPath": "C:\\Users\\49176\\.nuget\\packages\\",
-      "outputPath": "C:\\h\\TripAnalyzer\\TripAnalyzer.Api\\obj\\",
+      "outputPath": "C:\\code\\trip-analyzer\\TripAnalyzer.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\49176\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3468,7 +3484,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\code\\trip-analyzer\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\code\\trip-analyzer\\Domain\\Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
