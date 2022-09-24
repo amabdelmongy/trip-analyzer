@@ -39,6 +39,7 @@ public class VehiclePushAnalysisAggregateTest
     [Test]
     public void WHEN_analysis_vehiclePush_with_break_THEN_return_VehiclePushAnalysis()
     {
+        _breakThreshold = 1000;
         _data = new List<DataPoint>
         {
             new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 100122, fuelLevel: 50),
@@ -64,6 +65,28 @@ public class VehiclePushAnalysisAggregateTest
         Assert.That(breakFirst.EndTimestamp, Is.EqualTo(_data.Last().Timestamp));
 
         Assert.That(actual.RefuelStops.Count, Is.EqualTo(0));
+    }
+    [Test]
+    public void WHEN_analysis_vehiclePush_with_break_less_than_breakThreshold_THEN_return_VehiclePushAnalysis()
+    {
+        _breakThreshold = 10000;
+        _data = new List<DataPoint>
+        {
+            new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 100122, fuelLevel: 50),
+            new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 100123, fuelLevel: 50),
+            new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 100123, fuelLevel: 50),
+            new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 100123, fuelLevel: 50),
+            new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 100123, fuelLevel: 50)
+        };
+
+        var actual = new VehiclePushAnalysisAggregate(
+            _vin,
+            _breakThreshold,
+            _gasTankSize,
+            _data
+        );
+
+        Assert.That(actual!.Breaks.Count, Is.EqualTo(0));
     }
 
     [Test]

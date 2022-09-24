@@ -44,7 +44,7 @@ public class VehiclePushAnalysisAggregate
     /// <value>the size of the gas tank in liter</value>
     public int? GasTankSize { get; set; }
 
-    private List<BreakAggregate> _breaks;
+    private List<BreakAggregate> _breaks = new();
     /// <summary>
     /// a list of all breaks during the trip including the refuel stops
     /// </summary>
@@ -53,7 +53,7 @@ public class VehiclePushAnalysisAggregate
     {
         get
         {
-            if (_breaks != null) return _breaks;
+            if (_breaks.Any()) return _breaks;
 
             _breaks =
                 Data
@@ -69,7 +69,9 @@ public class VehiclePushAnalysisAggregate
                             key,
                             group
                         })
-                    .Where(t => t.group.Count() > 1)
+                    .Where(t =>
+                        t.group.Count() > 1
+                    )
                     .Select(t =>
                         new BreakAggregate(
                             t.key.PositionLat,
@@ -78,7 +80,10 @@ public class VehiclePushAnalysisAggregate
                             t.group.Last().Timestamp,
                             t.group.First().FuelLevel,
                             t.group.Last().FuelLevel
-                        )).ToList();
+                        ))
+                    .Where(t =>
+                        t.Period >= BreakThreshold
+                    ).ToList();
             return _breaks;
         }
     }

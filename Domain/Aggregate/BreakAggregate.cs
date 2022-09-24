@@ -6,7 +6,7 @@ public class BreakAggregate
         float? positionLat,
         float? positionLong,
         long? startTimestamp,
-        long? endTimestamp, 
+        long? endTimestamp,
         int? startFuelLevel,
         int? endFuelLevel)
     {
@@ -31,4 +31,6 @@ public class BreakAggregate
     public int? EndFuelLevel { get; }
 
     public int? FuelLevel => EndFuelLevel - StartFuelLevel;
+
+    public long? Period => EndTimestamp - StartTimestamp;
 }
