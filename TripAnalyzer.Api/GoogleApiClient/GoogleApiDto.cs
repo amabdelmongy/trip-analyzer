@@ -1,4 +1,4 @@
-﻿namespace TripAnalyzer.Api.DataAccess;
+﻿namespace TripAnalyzer.Api.GoogleApiClient;
 
 //todo
 // use api-client-library from Google https://developers.google.com/api-client-library/dotnet/get_started

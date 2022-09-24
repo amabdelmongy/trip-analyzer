@@ -1,10 +1,10 @@
-﻿namespace TripAnalyzer.Api.Service;
+﻿namespace Domain;
 
 public class Result<T>
 {
     public readonly IEnumerable<Error> Errors;
     public readonly bool IsOk;
-    public readonly T Value;
+    public readonly T? Value;
 
     internal Result(IEnumerable<Error> errors)
     {
@@ -20,7 +20,7 @@ public class Result<T>
         Errors = new List<Error>();
     }
 
-    internal Result(T value)
+    internal Result(T? value)
     {
         IsOk = true;
         Value = value;
@@ -32,9 +32,9 @@ public class Result<T>
 
 public static class Result
 {
-    public static Result<T> Ok<T>(T value)
+    public static Result<T?> Ok<T>(T value)
     {
-        return new Result<T>(value);
+        return new Result<T?>(value);
     }
 
     public static Result<T> Ok<T>()
@@ -55,24 +55,22 @@ public static class Result
 
 public class Error
 {
-    protected Error(string subject, Exception exception, string message)
+    protected Error(Exception? exception, string message)
     {
-        Subject = subject;
         Message = message;
         Exception = exception;
     }
 
-    public Exception Exception { get; }
-    public string Subject { get; }
+    public Exception? Exception { get; }
     public string Message { get; }
 
-    public static Error CreateFrom(string subject, string message = null)
+    public static Error CreateFrom(string message)
     {
-        return new Error(subject, null, message);
+        return new Error(null, message);
     }
 
-    public static Error CreateFrom(string subject, Exception exception)
+    public static Error CreateFrom(Exception exception)
     {
-        return new Error(subject, exception, exception.Message);
+        return new Error(exception, exception.Message);
     }
 }

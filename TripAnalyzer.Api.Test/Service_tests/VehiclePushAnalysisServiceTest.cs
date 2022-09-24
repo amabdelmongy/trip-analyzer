@@ -1,24 +1,26 @@
-using TripAnalyzer.Api.Service;
+using Domain.Aggregate;
+using Domain.Requests;
+using Domain.Service;
 
-namespace TripAnalyzer.Api.UnitTest.Service_tests;
+namespace Domain.UnitTest.Service_tests;
 
 public class Tests
 {
     private Fixture _fixture;
-    private VehiclePushAnalysisService _vehiclePushAnalysisService;
+    private VehiclePushService _vehiclePushService;
     private string _address = "Stuttgart";
 
     [SetUp]
     public void Setup()
     {
         _fixture = new Fixture();
-        var googleApisClientMock = new Mock<IGoogleApisClient>();
+        var googleApisClientMock = new Mock<IGoogleApiClient>();
         googleApisClientMock
             .Setup(t =>
                 t.GetAddress(It.IsAny<float>(), It.IsAny<float>())
             )
             .Returns(_address);
-        _vehiclePushAnalysisService = new VehiclePushAnalysisService(googleApisClientMock.Object);
+        _vehiclePushService = new VehiclePushService(googleApisClientMock.Object);
     }
 
     [Test]
@@ -26,10 +28,10 @@ public class Tests
     {
         var input = _fixture.Create<VehiclePush>();
 
-        var actual = _vehiclePushAnalysisService.Analysis(input);
+        var actual = _vehiclePushService.Analysis(input);
 
         Assert.True(actual.IsOk);
-        Assert.That(actual.Value.Vin, Is.EqualTo(input.Vin));
+        Assert.That(actual.Value!.Vin, Is.EqualTo(input.Vin));
         Assert.That(actual.Value.Destination, Is.EqualTo(_address));
         Assert.That(actual.Value.Departure, Is.EqualTo(_address));
         Assert.That(actual.Value.RefuelStops.Count, Is.EqualTo(0));
@@ -41,11 +43,11 @@ public class Tests
     {
         var input = _fixture.Build<VehiclePush>().With(t=> t.Vin , "").Create();
 
-        var actual = _vehiclePushAnalysisService.Analysis(input);
+        var actual = _vehiclePushService.Analysis(input);
 
         Assert.False(actual.IsOk);
         Assert.That(actual.Errors.Count(), Is.EqualTo(1));
-        Assert.That(actual.Errors.First().Subject, Is.EqualTo(ErrorCodes.VehiclepushVinDoesNotHaveValue));
+        Assert.That(actual.Errors.First().Message, Is.EqualTo(ErrorCodes.VehiclepushVinDoesNotHaveValue));
     }
 
     [Test]
@@ -53,11 +55,11 @@ public class Tests
     {
         var input = _fixture.Build<VehiclePush>().With(t => t.Data, new List<VehiclePushDataPoint>()).Create();
 
-        var actual = _vehiclePushAnalysisService.Analysis(input);
+        var actual = _vehiclePushService.Analysis(input);
 
         Assert.False(actual.IsOk);
         Assert.That(actual.Errors.Count(), Is.EqualTo(1));
-        Assert.That(actual.Errors.First().Subject, Is.EqualTo(ErrorCodes.VehiclepushDataIsLessThan));
+        Assert.That(actual.Errors.First().Message, Is.EqualTo(ErrorCodes.VehiclepushDataIsLessThan));
     }
 
     [Test]
@@ -65,13 +67,13 @@ public class Tests
     {
         var input = _fixture.Build<VehiclePush>().With(t => t.Data, new List<VehiclePushDataPoint>() { new VehiclePushDataPoint{ Timestamp = null}}).Create();
 
-        var actual = _vehiclePushAnalysisService.Analysis(input);
+        var actual = _vehiclePushService.Analysis(input);
 
         Assert.False(actual.IsOk);
         Assert.That(actual.Errors.Count(), Is.EqualTo(3));
-        Assert.True(actual.Errors.ToList().Any(t => t.Subject == ErrorCodes.VehiclepushDataTimestampDoesNotHaveValue));
-        Assert.True(actual.Errors.ToList().Any(t => t.Subject == ErrorCodes.VehiclepushDataPositionlongDoesNotHaveValue));
-        Assert.True(actual.Errors.ToList().Any(t => t.Subject == ErrorCodes.VehiclepushDataPositionlatDoesNotHaveValue));
+        Assert.True(actual.Errors.ToList().Any(t => t.Message == ErrorCodes.VehiclepushDataTimestampDoesNotHaveValue));
+        Assert.True(actual.Errors.ToList().Any(t => t.Message == ErrorCodes.VehiclepushDataPositionlongDoesNotHaveValue));
+        Assert.True(actual.Errors.ToList().Any(t => t.Message == ErrorCodes.VehiclepushDataPositionlatDoesNotHaveValue));
     }
 
     [Test]
@@ -82,13 +84,16 @@ public class Tests
         input.Data = new List<VehiclePushDataPoint>
         {
             new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 100122, fuelLevel: 50),
-            new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 100123, fuelLevel: 50),
+            new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 200123, fuelLevel: 50),
+            new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 300123, fuelLevel: 50),
+            new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 400123, fuelLevel: 50),
+            new(odometer: 50, positionLat: 123, positionLong: 22, timestamp: 500123, fuelLevel: 50)
         };
 
-        var actual = _vehiclePushAnalysisService.Analysis(input);
+        var actual = _vehiclePushService.Analysis(input);
 
         Assert.True(actual.IsOk);
-        Assert.That(actual.Value.Breaks.Count, Is.EqualTo(1));
+        Assert.That(actual.Value!.Breaks.Count, Is.EqualTo(1));
 
         var breakFirst = actual.Value.Breaks.First();
         Assert.That(breakFirst.PositionLat, Is.EqualTo(input.Data.First().PositionLat));
@@ -112,10 +117,10 @@ public class Tests
             new(odometer: 20050, positionLat: 123, positionLong: 22, timestamp: 200123, fuelLevel: 80),
         };
 
-        var actual = _vehiclePushAnalysisService.Analysis(input);
+        var actual = _vehiclePushService.Analysis(input);
 
         Assert.True(actual.IsOk);
-        Assert.That(actual.Value.Breaks.Count, Is.EqualTo(2));
+        Assert.That(actual.Value!.Breaks.Count, Is.EqualTo(2));
 
         var breakFirst = actual.Value.Breaks.First();
         Assert.That(breakFirst.PositionLat, Is.EqualTo(input.Data.First().PositionLat));
@@ -134,13 +139,15 @@ public class Tests
         input.Data = new List<VehiclePushDataPoint>
         {
             new(odometer: 10000, positionLat: 123, positionLong: 22, timestamp: 100122, fuelLevel: 20),
-            new(odometer: 10000, positionLat: 123, positionLong: 22, timestamp: 100123, fuelLevel: 90),
+            new(odometer: 10000, positionLat: 123, positionLong: 22, timestamp: 200123, fuelLevel: 90),
+            new(odometer: 10000, positionLat: 123, positionLong: 22, timestamp: 300123, fuelLevel: 90),
+            new(odometer: 10000, positionLat: 123, positionLong: 22, timestamp: 500123, fuelLevel: 90)
         };
 
-        var actual = _vehiclePushAnalysisService.Analysis(input);
+        var actual = _vehiclePushService.Analysis(input);
 
         Assert.True(actual.IsOk);
-        Assert.That(actual.Value.RefuelStops.Count, Is.EqualTo(1));
+        Assert.That(actual.Value!.RefuelStops.Count, Is.EqualTo(1));
 
         var refuelStops = actual.Value.RefuelStops.First();
         Assert.That(refuelStops.PositionLat, Is.EqualTo(input.Data.First().PositionLat));

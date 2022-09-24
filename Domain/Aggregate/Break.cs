@@ -1,36 +1,37 @@
-namespace TripAnalyzer.Api.Models.Responses;
+namespace Domain.Aggregate;
 
-public class Break
+public class BreakAggregate
 {
-    public Break()
-    {
-    }
 
-    public Break(float? positionLat, float? positionLong, long? endTimestamp, long? startTimestamp)
+    public BreakAggregate(
+        float? positionLat,
+        float? positionLong,
+        long? startTimestamp,
+        long? endTimestamp)
     {
         PositionLat = positionLat;
         PositionLong = positionLong;
-        EndTimestamp = endTimestamp;
         StartTimestamp = startTimestamp;
+        EndTimestamp = endTimestamp;
     }
 
     /// <summary>
     /// Gets or Sets StartTimestamp
     /// </summary>
-    public long? StartTimestamp { get; set; }
+    public long? StartTimestamp { get; }
 
     /// <summary>
     /// Gets or Sets EndTimestamp
     /// </summary>
-    public long? EndTimestamp { get; set; }
+    public long? EndTimestamp { get; }
 
     /// <summary>
     /// Gets or Sets PositionLat
     /// </summary>
-    public float? PositionLat { get; set; }
+    public float? PositionLat { get; }
 
     /// <summary>
     /// Gets or Sets PositionLong
     /// </summary>
-    public float? PositionLong { get; set; }
+    public float? PositionLong { get; }
 }

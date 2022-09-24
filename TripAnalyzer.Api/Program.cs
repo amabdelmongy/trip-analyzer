@@ -1,14 +1,15 @@
 using System.Net.Http.Headers;
+using Domain.Service;
 using Serilog;
-using TripAnalyzer.Api.DataAccess;
+using TripAnalyzer.Api.GoogleApiClient;
 using TripAnalyzer.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddTransient<IVehiclePushAnalysisService, VehiclePushAnalysisService>();
+builder.Services.AddTransient<IVehiclePushService, VehiclePushService>();
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
-builder.Services.AddHttpClient<IGoogleApisClient, GoogleApisClient>(
+builder.Services.AddHttpClient<IGoogleApiClient, GoogleApiClient>(
         httpClient =>
         {
             httpClient.Timeout = Timeout.InfiniteTimeSpan;
@@ -20,7 +21,7 @@ builder.Services.AddOptions();
 builder.Services.Configure<GoogleApiConfig>(builder.Configuration.GetSection("GoogleApiConfig"));
 
 // remove default logging providers
-builder.Logging.ClearProviders(); 
+builder.Logging.ClearProviders();
 var logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
@@ -32,4 +33,7 @@ app.UseMiddleware<ApiKeyAuthenticationMiddleware>();
 app.MapControllers();
 app.Logger.LogInformation("The application started");
 app.Run();
-public partial class Program { }
+namespace TripAnalyzer.Api
+{
+    public partial class Program { }
+}

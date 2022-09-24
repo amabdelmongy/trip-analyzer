@@ -1,4 +1,4 @@
-﻿namespace TripAnalyzer.Api.DataAccess;
+﻿namespace TripAnalyzer.Api.GoogleApiClient;
 
 public class GoogleApiConfig
 {

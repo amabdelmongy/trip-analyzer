@@ -1,5 +1,6 @@
+using Domain.Service;
 using Microsoft.AspNetCore.Mvc;
-using TripAnalyzer.Api.Models.Requests;
+using TripAnalyzer.Api.Models.Responses;
 
 namespace TripAnalyzer.Api.Controller.v1;
 
@@ -7,15 +8,11 @@ namespace TripAnalyzer.Api.Controller.v1;
 [Route("v1/trip")]
 public class TripController : ControllerBase
 {
-    private readonly ILogger<TripController> _logger;
-    private readonly IVehiclePushAnalysisService _vehiclePushAnalysisService;
+    private readonly IVehiclePushService _vehiclePushService;
 
-    public TripController(
-        ILogger<TripController> logger,
-        IVehiclePushAnalysisService vehiclePushAnalysisService)
+    public TripController(IVehiclePushService vehiclePushService)
     {
-        _logger = logger;
-        _vehiclePushAnalysisService = vehiclePushAnalysisService;
+        _vehiclePushService = vehiclePushService;
     }
 
     /// <summary>
@@ -25,16 +22,40 @@ public class TripController : ControllerBase
     [HttpPost]
     public ActionResult post(VehiclePush vehiclePush)
     {
-        var result = _vehiclePushAnalysisService.Analysis(vehiclePush);
+        var result = _vehiclePushService.Analysis(vehiclePush);
 
         if (result.HasErrors)
             return new BadRequestObjectResult(
                 result.Errors
                     .Select(error => new
                     {
-                        subject = error.Subject
+                        subject = error.Message
                     }));
 
-        return Ok(result.Value);
+        var aggregate = result.Value;
+
+        return Ok(
+            new VehiclePushAnalysis
+            {
+                Vin = aggregate!.Vin,
+                Consumption = aggregate.Consumption,
+                Departure = aggregate.Departure,
+                Destination = aggregate.Destination,
+                Breaks =
+                    aggregate.Breaks.Select(t =>
+                        new Break(
+                            positionLat: t.PositionLat,
+                            positionLong: t.PositionLong,
+                            startTimestamp: t.StartTimestamp,
+                            endTimestamp: t.EndTimestamp)).ToList(),
+                RefuelStops =
+                    aggregate.RefuelStops.Select(t =>
+                        new Break(
+                            positionLat: t.PositionLat,
+                            positionLong: t.PositionLong,
+                            startTimestamp: t.StartTimestamp,
+                            endTimestamp: t.EndTimestamp)).ToList()
+            }
+            );
     }
 }

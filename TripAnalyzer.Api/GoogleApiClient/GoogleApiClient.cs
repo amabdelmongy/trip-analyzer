@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
-namespace TripAnalyzer.Api.DataAccess;
+namespace TripAnalyzer.Api.GoogleApiClient;
 
-public class GoogleApisClient : IGoogleApisClient
+public class GoogleApiClient : IGoogleApiClient
 {
     private readonly HttpClient _httpClient;
     private readonly GoogleApiConfig _googleApiConfig;
 
-    public GoogleApisClient(
+    public GoogleApiClient(
         HttpClient httpClient,
         IOptions<GoogleApiConfig> googleApiConfig
         )

@@ -1,4 +1,6 @@
-namespace TripAnalyzer.Api.Models.Requests;
+using TripAnalyzer.Api.Models.Requests;
+
+namespace Domain.Requests;
 
 public class VehiclePush
 {

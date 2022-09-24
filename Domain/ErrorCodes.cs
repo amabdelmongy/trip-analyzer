@@ -1,4 +1,4 @@
-﻿namespace TripAnalyzer.Api.Service;
+﻿namespace Domain;
 
 public class ErrorCodes
 {

@@ -2,13 +2,14 @@ using AutoFixture;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using Moq;
-using TripAnalyzer.Api.Service;
-using TripAnalyzer.Api.Models.Requests;
 using TripAnalyzer.Api.Models.Responses;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using TripAnalyzer.Api.Middleware;
 using System.Text;
+using Domain;
+using Domain.Requests;
+using Domain.Service;
 
 namespace TripAnalyzer.Api.Integration.Test;
 
@@ -24,7 +25,7 @@ public class TripControllerTest
     public void Setup()
     {
         _fixture = new Fixture();
-        var googleApisClientMock = new Mock<IGoogleApisClient>() ;
+        var googleApisClientMock = new Mock<IGoogleApiClient>() ;
         googleApisClientMock
         .Setup(t =>
                 t.GetAddress(It.IsAny<float>(), It.IsAny<float>())
@@ -43,7 +44,7 @@ public class TripControllerTest
             {
                 builder.ConfigureTestServices(services =>
                 {
-                    services.AddTransient<IVehiclePushAnalysisService, VehiclePushAnalysisService>();
+                    services.AddTransient<IVehiclePushService, VehiclePushService>();
                     services.AddSingleton(googleApisClientMock.Object);
                     services.AddSingleton(authenticationServiceMock.Object);
                 });
