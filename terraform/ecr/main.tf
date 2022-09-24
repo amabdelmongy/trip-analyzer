@@ -9,5 +9,5 @@ data "aws_ecr_repository" "instance" {
 
 data "aws_ecr_image" "instance" {
   repository_name = aws_ecr_repository.instance.name
-  image_tag       = "${var.prefix}-${var.environment}-ecr-image"
+  image_tag       = "trip-analyzer-dev-ecr-image"
 }
