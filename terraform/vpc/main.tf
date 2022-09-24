@@ -5,7 +5,7 @@ resource "aws_eip" "nat" {
 
 module "vpc" {
   source                  = "terraform-aws-modules/vpc/aws"
-  name                    = "${var.prefix}-${var.environment}-vpc"
+  name                    = "${var.prefix}-${var.environment}"
   cidr                    = var.vpc_cidr
   azs                     = var.azs
   private_subnets         = var.private_subnet_cidrs
@@ -24,7 +24,7 @@ resource "aws_security_group" "security_group_vpc" {
   depends_on = [
     module.vpc.name,
   ]
-  name   = "${var.prefix}-${var.environment}-security-group-vpc"
+  name   = "sg vpc"
   vpc_id = module.vpc.vpc_id
 
   ingress {

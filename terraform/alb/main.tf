@@ -1,5 +1,5 @@
 resource "aws_lb" "main" {
-  name               = "${var.prefix}-${var.environment}-alb"
+  name               = "container-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
@@ -10,9 +10,9 @@ resource "aws_lb" "main" {
 }
 
 resource "aws_security_group" "alb" {
-  name              = "${var.prefix}-${var.environment}-securityGroup-alb"
-  description       = "Allow HTTP inbound traffc"
-  vpc_id            = var.vpc_id
+  name        = "securityGroup-alb"
+  description = "Allow HTTP inbound traffc"
+  vpc_id      = var.vpc_id
 
   egress {
     from_port   = 0
@@ -31,7 +31,7 @@ resource "aws_security_group" "alb" {
 
 
 resource "aws_alb_target_group" "main" {
-  name        = "${var.prefix}-${var.environment}-alb-tg"
+  name        = "alb-tg"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = var.vpc_id

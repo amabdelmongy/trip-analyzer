@@ -1,9 +1,9 @@
 resource "aws_ecs_cluster" "this" {
-  name = "${var.prefix}-${var.environment}-ecs-cluster"
+  name = "${var.prefix}-${var.environment}"
 }
 
 resource "aws_security_group" "trip-analyzer" {
-  name        = "${var.prefix}-${var.environment}-fargater"
+  name        = "${var.prefix}-trip-analyzer-${var.environment}"
   description = "Fargate trip-analyzer"
   vpc_id      = var.vpc_id
 
@@ -25,7 +25,7 @@ resource "aws_security_group" "trip-analyzer" {
 }
 
 resource "aws_ecs_service" "this" {
-  name             = "${var.prefix}-${var.environment}-ecs"
+  name             = "${var.prefix}-${var.environment}"
   cluster          = aws_ecs_cluster.this.id
   task_definition  = aws_ecs_task_definition.this.arn
   desired_count    = var.desired_count
@@ -43,7 +43,7 @@ resource "aws_ecs_service" "this" {
 
   load_balancer {
     target_group_arn = var.aws_alb_target_group_arn
-    container_name   = "${var.prefix}-${var.environment}-image"
+    container_name   = "trip-analyzer"
     container_port   = 80
   }
 
@@ -58,7 +58,7 @@ resource "aws_ecs_task_definition" "this" {
   cpu                      = var.task_cpu
   memory                   = var.task_memory
   container_definitions = jsonencode([{
-      name  = "${var.prefix}-${var.environment}-image"
+      name  = "trip-analyzer"
       image = join("@", [var.aws_ecr_repository_url, var.aws_ecr_image_digest])
       portMappings = [
         {
