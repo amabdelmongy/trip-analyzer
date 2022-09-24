@@ -18,7 +18,7 @@
   * Run [bootstrap work flow at Github](https://github.com/amabdelmongy/trip-analyzer/actions/workflows/bootstrap.yml)
 - Provide the following files together with your code in the github repository&#58;
   * [Dockerfile](docker-compose.yml)
-  * Build-Script just run docker and it will build the project.
+  * Build-Script just run `dotnet build "src/TripAnalyzer.Api/TripAnalyzer.Api.csproj"`
   * [Deployment-Script](.github\workflows\bootstrap.yml)
   * [Infrastructure automation scripts](terraform\main.tf)
   * README.md with documentation how to deploy the infrastructure and the application
