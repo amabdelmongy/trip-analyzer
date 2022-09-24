@@ -1,9 +1,8 @@
 # Trip Analyzer
 
 ## Deliverables
-- Implement the specified [REST Endpoint](assets/architecture/architecture.svg)
-- Built an API service that allows the client to Execute service call for Post. aws Url/v1/trip
-- use BasicAuth name/password: demo/demo for now the credentional is Authenticate form internal service [AuthenticationService](src\TripAnalyzer.Api\Middleware\AuthenticationService.cs)
+- Implemented the specified [REST Endpoint](assets/architecture/architecture.svg) which allows the client to Execute service call for Post. aws Url/v1/trip 
+- BasicAuth using (name/password: demo/demo). Internal service [AuthenticationService](src\TripAnalyzer.Api\Middleware\AuthenticationService.cs) is created to handle authenticationand it can be extended.
 - Use Docker to run your application run command
 ``` docker-compose up --build ```
 - Using C# language & .Net Core
@@ -11,10 +10,10 @@
   * AWS
   * Using Terraform
   * Using GitHub Actions
-- Use [google apis](src\TripAnalyzer.Api\GoogleApiClient\GoogleApiClient.cs) to determine the city name for depature and destination
+- [google apis](src\TripAnalyzer.Api\GoogleApiClient\GoogleApiClient.cs) is used to determine the city name for depature and destination
 - Provide a link to the secured hosted instance of your solution together with a username and a password.
   * I used AWS.
-  * GitHub actions could deploy at any time to My AWS Account.
+  * GitHub actions can deploy at any time to My AWS Account.
   * Run [bootstrap work flow at Github](https://github.com/amabdelmongy/trip-analyzer/actions/workflows/bootstrap.yml)
 - Provide the following files together with your code in the github repository&#58;
   * [Dockerfile](docker-compose.yml)
@@ -111,6 +110,7 @@ the file docker-compose.yml will be under api folder direct.
 ```
 
 ## Excute the code 
+BasicAuth name/password: demo/demo.
 Using API url Post action ```/v1/trip```
   Input
 ```
