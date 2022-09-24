@@ -43,7 +43,7 @@ resource "aws_ecs_service" "this" {
 
   load_balancer {
     target_group_arn = var.aws_alb_target_group_arn
-    container_name   = "trip-analyzer"
+    container_name   = "${var.prefix}-${var.environment}-image"
     container_port   = 80
   }
 
