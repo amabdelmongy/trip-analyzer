@@ -2,7 +2,7 @@
 
 ## Deliverables
 - Implemented the specified [REST Endpoint](assets/architecture/architecture.svg) which allows the client to Execute service call for Post. aws Url/v1/trip 
-- BasicAuth using (name/password: demo/demo). Internal service [AuthenticationService](src\TripAnalyzer.Api\Middleware\AuthenticationService.cs) is created to handle authenticationand it can be extended.
+- BasicAuth using (name/password: demo/demo). Internal service [AuthenticationService](src\TripAnalyzer.Api\Middleware\AuthenticationService.cs) is created to handle authentication and it can be extended.
 - Use Docker to run your application run command
 ``` docker-compose up --build ```
 - Using C# language & .Net Core
