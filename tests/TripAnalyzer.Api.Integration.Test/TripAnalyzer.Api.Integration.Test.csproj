@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TripAnalyzer.Api\TripAnalyzer.Api.csproj" />
+    <ProjectReference Include="..\..\src\TripAnalyzer.Api\TripAnalyzer.Api.csproj" />
   </ItemGroup>
 
 </Project>
