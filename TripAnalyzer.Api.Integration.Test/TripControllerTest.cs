@@ -1,16 +1,3 @@
-using AutoFixture;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
-using Moq;
-using TripAnalyzer.Api.Models.Responses;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.DependencyInjection;
-using TripAnalyzer.Api.Middleware;
-using System.Text;
-using Domain;
-using Domain.Service;
-using TripAnalyzer.Api.Models.Requests;
-
 namespace TripAnalyzer.Api.Integration.Test;
 
 public class TripControllerTest
@@ -20,13 +7,14 @@ public class TripControllerTest
     private Fixture _fixture;
     private HttpClient _httpClient;
     private string _address = "Stuttgart";
+    private Mock<IGoogleApiClient> _googleApisClientMock;
 
     [SetUp]
     public void Setup()
     {
         _fixture = new Fixture();
-        var googleApisClientMock = new Mock<IGoogleApiClient>() ;
-        googleApisClientMock
+        _googleApisClientMock = new Mock<IGoogleApiClient>();
+        _googleApisClientMock
         .Setup(t =>
                 t.GetAddress(It.IsAny<float>(), It.IsAny<float>())
             )
@@ -45,7 +33,7 @@ public class TripControllerTest
                 builder.ConfigureTestServices(services =>
                 {
                     services.AddTransient<IVehiclePushService, VehiclePushService>();
-                    services.AddSingleton(googleApisClientMock.Object);
+                    services.AddSingleton(_googleApisClientMock.Object);
                     services.AddSingleton(authenticationServiceMock.Object);
                 });
             });
@@ -61,8 +49,7 @@ public class TripControllerTest
         var input = _fixture.Create<VehiclePush>();
 
         using var message = new HttpRequestMessage(HttpMethod.Post, UrlTrip);
-        message.Content = CreateContent(input);
-
+        message.Content = CreateContent(input); 
         var response = await _httpClient.SendAsync(message);
 
         response.EnsureSuccessStatusCode();
@@ -72,6 +59,37 @@ public class TripControllerTest
         Assert.That(actual.Vin, Is.EqualTo(input.Vin));
         Assert.That(actual.Destination, Is.EqualTo(_address));
         Assert.That(actual.Departure, Is.EqualTo(_address));
+    }
+
+    [Test]
+    public async Task WHEN_Post_unAuthorize_THEN_return_401()
+    {
+        var authenticationServiceMock = new Mock<IAuthenticationService>();
+        authenticationServiceMock
+            .Setup(t =>
+                t.IsAuthenticated(It.IsAny<string>())
+            )
+            .Returns(false);
+
+        var application = new WebApplicationFactory<Program>()
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddTransient<IVehiclePushService, VehiclePushService>();
+                    services.AddSingleton(_googleApisClientMock.Object);
+                    services.AddSingleton(authenticationServiceMock.Object);
+                });
+            });
+
+        _httpClient = application.CreateClient();
+        var input = _fixture.Create<VehiclePush>();
+        using var message = new HttpRequestMessage(HttpMethod.Post, UrlTrip);
+        message.Content = CreateContent(input);
+
+        var response = await _httpClient.SendAsync(message);
+
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
     }
 
     //todo add more tests

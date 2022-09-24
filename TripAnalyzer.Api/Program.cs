@@ -1,8 +1,8 @@
 using System.Net.Http.Headers;
-using Domain.Service;
 using Serilog;
 using TripAnalyzer.Api.GoogleApiClient;
 using TripAnalyzer.Api.Middleware;
+using TripAnalyzer.Api.Models.Requests.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +19,8 @@ builder.Services.AddControllers();
 builder.Services.AddHealthChecks();
 builder.Services.AddOptions();
 builder.Services.Configure<GoogleApiConfig>(builder.Configuration.GetSection("GoogleApiConfig"));
+builder.Services.AddTransient<IValidator<VehiclePush>, RequestValidator>();
+
 
 // remove default logging providers
 builder.Logging.ClearProviders();

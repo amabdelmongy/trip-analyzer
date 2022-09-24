@@ -46,46 +46,7 @@ public class VehiclePushAnalysisServiceTest
         Assert.That(actual.Value.Departure, Is.EqualTo(_address));
         Assert.That(actual.Value.RefuelStops.Count, Is.EqualTo(0));
         Assert.That(actual.Value.Breaks.Count, Is.EqualTo(0));
-    }
-
-    //[Test]
-    //public void WHEN_analysis_vehiclePush_without_vin_THEN_return_Error()
-    //{
-    //    var input = _fixture.Build<VehiclePush>().With(t=> t.Vin , "").Create();
-
-    //    var actual = _vehiclePushService.Analysis(input);
-
-    //    Assert.False(actual.IsOk);
-    //    Assert.That(actual.Errors.Count(), Is.EqualTo(1));
-    //    Assert.That(actual.Errors.First().Message, Is.EqualTo(ErrorCodes.VehiclepushVinDoesNotHaveValue));
-    //}
-
-    //[Test]
-    //public void WHEN_analysis_vehiclePush_without_Data_THEN_return_Error()
-    //{
-    //    var input = _fixture.Build<VehiclePush>().With(t => t.Data, new List<VehiclePushDataPoint>()).Create();
-
-    //    var actual = _vehiclePushService.Analysis(input);
-
-    //    Assert.False(actual.IsOk);
-    //    Assert.That(actual.Errors.Count(), Is.EqualTo(1));
-    //    Assert.That(actual.Errors.First().Message, Is.EqualTo(ErrorCodes.VehiclepushDataIsLessThan));
-    //}
-
-    //[Test]
-    //public void WHEN_analysis_VehiclePush_data_without_timestamp_positionlong_positionlat_THEN_return_Errors()
-    //{
-    //    var input = _fixture.Build<VehiclePush>().With(t => t.Data, new List<VehiclePushDataPoint>() { new VehiclePushDataPoint{ Timestamp = null}}).Create();
-
-    //    var actual = _vehiclePushService.Analysis(input);
-
-    //    Assert.False(actual.IsOk);
-    //    Assert.That(actual.Errors.Count(), Is.EqualTo(3));
-    //    Assert.True(actual.Errors.ToList().Any(t => t.Message == ErrorCodes.VehiclepushDataTimestampDoesNotHaveValue));
-    //    Assert.True(actual.Errors.ToList().Any(t => t.Message == ErrorCodes.VehiclepushDataPositionlongDoesNotHaveValue));
-    //    Assert.True(actual.Errors.ToList().Any(t => t.Message == ErrorCodes.VehiclepushDataPositionlatDoesNotHaveValue));
-    //}
-
+    } 
 
     //todo add more unit tests
 }
