@@ -11,6 +11,8 @@
     &lt;TestId&gt;NUnit3x::49897877-19F0-48FA-A657-F6002D687D4E::net6.0::TripAnalyzer.Api.Integration.Test.RequestValidationTest.WHEN_analysis_VehiclePush_data_without_timestamp_positionlong_positionlat_THEN_return_Errors&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::49897877-19F0-48FA-A657-F6002D687D4E::net6.0::TripAnalyzer.Api.Integration.Test.TripControllerTest.WHEN_Postt_unAuthorize_THEN_return_401&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::49897877-19F0-48FA-A657-F6002D687D4E::net6.0::TripAnalyzer.Api.Integration.Test.TripControllerTest.WHEN_Post_unAuthorize_THEN_return_401&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D30D20DE-E79B-4E5F-B80D-2BEFCA00D177::net6.0::Domain.UnitTest.Aggregate.VehiclePushAnalysisAggregateTest.WHEN_analysis_vehiclePush_with_break_THEN_return_VehiclePushAnalysis&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::D30D20DE-E79B-4E5F-B80D-2BEFCA00D177::net6.0::Domain.UnitTest.Aggregate.VehiclePushAnalysisAggregateTest.WHEN_analysis_vehiclePush_with_break_less_than_breakThreshold_THEN_return_VehiclePushAnalysis&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=311f81cc_002D73a8_002D4ea1_002Da227_002D7d69edda71bd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="WHEN_analysis_VehiclePush_without_vin_THEN_return_Error" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;

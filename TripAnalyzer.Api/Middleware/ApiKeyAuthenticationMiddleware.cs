@@ -16,7 +16,9 @@ public class ApiKeyAuthenticationMiddleware
 
         var path = httpContext.Request.Path.Value;
         if (!string.IsNullOrEmpty(path) &&
-            path.Contains("/health", StringComparison.InvariantCulture))
+            (path.Contains("/health", StringComparison.InvariantCulture) ||
+            path.Contains("/swagger", StringComparison.InvariantCulture))
+        )
         {
             await _next(httpContext);
             return;
@@ -28,6 +30,6 @@ public class ApiKeyAuthenticationMiddleware
             return;
         }
 
-        await _next(httpContext); 
+        await _next(httpContext);
     }
 }

@@ -310,6 +310,7 @@ C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\refs\Wi
 C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\AutoFixture.dll
 C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\Castle.Core.dll
 C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\Fare.dll
+C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\FluentValidation.dll
 C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.Testing.dll
 C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\Microsoft.AspNetCore.TestHost.dll
 C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
@@ -413,3 +414,9 @@ C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\obj\Debug\net6.0\refint\
 C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\obj\Debug\net6.0\TripAnalyzer.Api.Integration.Test.pdb
 C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\obj\Debug\net6.0\TripAnalyzer.Api.Integration.Test.genruntimeconfig.cache
 C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\obj\Debug\net6.0\ref\TripAnalyzer.Api.Integration.Test.dll
+C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
+C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\code\trip-analyzer\TripAnalyzer.Api.Integration.Test\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll

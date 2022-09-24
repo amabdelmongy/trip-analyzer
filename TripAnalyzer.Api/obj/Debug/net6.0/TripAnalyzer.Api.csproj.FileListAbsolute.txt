@@ -6,6 +6,7 @@ C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\TripAnalyzer.Api.deps.js
 C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\TripAnalyzer.Api.runtimeconfig.json
 C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\TripAnalyzer.Api.dll
 C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\TripAnalyzer.Api.pdb
+C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\FluentValidation.dll
 C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\Serilog.dll
 C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\Serilog.Extensions.Hosting.dll
@@ -28,3 +29,10 @@ C:\code\trip-analyzer\TripAnalyzer.Api\obj\Debug\net6.0\refint\TripAnalyzer.Api.
 C:\code\trip-analyzer\TripAnalyzer.Api\obj\Debug\net6.0\TripAnalyzer.Api.pdb
 C:\code\trip-analyzer\TripAnalyzer.Api\obj\Debug\net6.0\TripAnalyzer.Api.genruntimeconfig.cache
 C:\code\trip-analyzer\TripAnalyzer.Api\obj\Debug\net6.0\ref\TripAnalyzer.Api.dll
+C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
+C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\code\trip-analyzer\TripAnalyzer.Api\obj\Debug\net6.0\TripAnalyzer.Api.MvcApplicationPartsAssemblyInfo.cs
+C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\code\trip-analyzer\TripAnalyzer.Api\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll

@@ -20,8 +20,7 @@ builder.Services.AddHealthChecks();
 builder.Services.AddOptions();
 builder.Services.Configure<GoogleApiConfig>(builder.Configuration.GetSection("GoogleApiConfig"));
 builder.Services.AddTransient<IValidator<VehiclePush>, RequestValidator>();
-
-
+builder.Services.AddSwaggerGen();
 // remove default logging providers
 builder.Logging.ClearProviders();
 var logger = new LoggerConfiguration()
@@ -33,6 +32,13 @@ var app = builder.Build();
 app.MapHealthChecks("/health");
 app.UseMiddleware<ApiKeyAuthenticationMiddleware>();
 app.MapControllers();
+// Enable middleware to serve generated Swagger as a JSON endpoint.
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Trip API V1");
+});
+
 app.Logger.LogInformation("The application started");
 app.Run();
 namespace TripAnalyzer.Api

@@ -322,3 +322,8 @@ TripAnalyzer.Api/obj/Debug/net6.0/TripAnalyzer.Api.csproj.FileListAbsolute.txt
 TripAnalyzer.Api/obj/project.assets.json
 TripAnalyzer.Api/obj/staticwebassets.pack.sentinel
 TripAnalyzer.Api/obj/TripAnalyzer.Api.csproj.nuget.dgspec.json
+TripAnalyzer.sln.DotSettings.user
+TripAnalyzer.Api.Integration.Test/obj/Debug/net6.0/TripAnalyzer.Api.Integration.Test.assets.cache
+*.cache
+TripAnalyzer.sln.DotSettings.user
+TripAnalyzer.Api.Integration.Test/obj/Debug/net6.0/TripAnalyzer.Api.Integration.Test.assets.cache
