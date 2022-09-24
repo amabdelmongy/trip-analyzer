@@ -8,8 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using TripAnalyzer.Api.Middleware;
 using System.Text;
 using Domain;
-using Domain.Requests;
 using Domain.Service;
+using TripAnalyzer.Api.Models.Requests;
 
 namespace TripAnalyzer.Api.Integration.Test;
 

@@ -1,6 +1,4 @@
-﻿using TripAnalyzer.Api.Models.Requests;
-
-namespace Domain.Service;
+﻿namespace Domain.Service;
 
 public class VehiclePushService : IVehiclePushService
 {
@@ -11,120 +9,29 @@ public class VehiclePushService : IVehiclePushService
         _googleApiClient = googleApiClient;
     }
 
-    public Result<VehiclePushAnalysisAggregate?> Analysis(VehiclePush vehiclePush)
+    public Result<VehiclePushAnalysisAggregate?> Analysis(
+        string vin,
+        int? breakThreshold,
+        int? gasTankSize,
+        List<DataPoint> data)
     {
-        var errors = ValidateVehiclePush(vehiclePush);
-        if (errors.Any())
-            return Result.Failed<VehiclePushAnalysisAggregate>(errors)!;
 
-        var data = vehiclePush.Data.OrderBy(t => t.Timestamp).ToList();
-        var departureData = data.First();
-        var destinationData = data.Last();
 
-        return Result.Ok(
-            new VehiclePushAnalysisAggregate(
-                vin: vehiclePush.Vin,
-                departure: _googleApiClient.GetAddress(
-                    departureData.PositionLat!.Value,
-                    departureData.PositionLong!.Value)!,
-                destination: _googleApiClient.GetAddress(
-                    destinationData.PositionLat!.Value,
-                    destinationData.PositionLong!.Value)!,
-                refuelStops: GetRefuelStops(data),
-                consumption: null,
-                breaks: GetBreaks(data)
-            ));
-    }
-
-    private List<BreakAggregate> GetRefuelStops(List<VehiclePushDataPoint> data)
-    {
-        var dataGrouped =
+        var aggregate = new VehiclePushAnalysisAggregate(
+            vin,
+            breakThreshold,
+            gasTankSize,
             data
-                .GroupBy(x =>
-                    new
-                    {
-                        x.PositionLat,
-                        x.PositionLong,
-                        x.Odometer
-                    }, (key, group) =>
-                    new
-                    {
-                        key,
-                        group
-                    })
-                .Where(t => t.group.Count() > 1);
+        );
+        aggregate.Departure = _googleApiClient.GetAddress(
+            aggregate.DepartureData.PositionLat!.Value,
+            aggregate.DepartureData.PositionLong!.Value)!;
 
-        var dataWithDifferentFuelLevel =
-            dataGrouped
-                .Select(t =>
-                    new
-                    {
-                        t.key.PositionLat,
-                        t.key.PositionLong,
-                        StartTimestamp = t.group.First().Timestamp,
-                        EndTimestamp = t.group.Last().Timestamp,
-                        FuelLevelFirst = t.group.First().FuelLevel,
-                        FuelLevelLast = t.group.Last().FuelLevel
+        aggregate.Destination = _googleApiClient.GetAddress(
+            aggregate.DestinationData.PositionLat!.Value,
+            aggregate.DestinationData.PositionLong!.Value)!;
 
-                    })
-                .Where(t => t.FuelLevelLast > t.FuelLevelFirst);
-
-        return dataWithDifferentFuelLevel
-            .Select(t =>
-                new BreakAggregate(positionLat: t.PositionLat, positionLong: t.PositionLong,
-                    startTimestamp: t.StartTimestamp, endTimestamp: t.EndTimestamp)).ToList();
+        return Result.Ok(aggregate);
     }
 
-    private List<BreakAggregate> GetBreaks(List<VehiclePushDataPoint> data) =>
-        data
-            .GroupBy(x =>
-                new
-                {
-                    x.PositionLat,
-                    x.PositionLong,
-                    x.Odometer
-                }, (key, group) =>
-                new
-                {
-                    key,
-                    group
-                })
-            .Where(t => t.group.Count() > 1)
-            .Select(t =>
-                new BreakAggregate(positionLat: t.key.PositionLat, positionLong: t.key.PositionLong,
-                    startTimestamp: t.group.First().Timestamp, endTimestamp: t.group.Last().Timestamp))
-            .ToList();
-
-    private IEnumerable<Error> ValidateVehiclePush(VehiclePush vehiclePush)
-    {
-        var errors = new List<Error>();
-
-        if (vehiclePush == null)
-        {
-            errors.Add(Error.CreateFrom(ErrorCodes.VehiclepushIsNull));
-            return errors;
-        }
-
-        if (string.IsNullOrEmpty(vehiclePush.Vin))
-            errors.Add(Error.CreateFrom(ErrorCodes.VehiclepushVinDoesNotHaveValue));
-
-        if (vehiclePush.Data.Count < 1)
-            errors.Add(Error.CreateFrom(ErrorCodes.VehiclepushDataIsLessThan));
-
-
-        foreach (var data in vehiclePush.Data)
-        {
-            if (!data.PositionLat.HasValue)
-                errors.Add(Error.CreateFrom(ErrorCodes.VehiclepushDataPositionlatDoesNotHaveValue));
-
-
-            if (!data.PositionLong.HasValue)
-                errors.Add(Error.CreateFrom(ErrorCodes.VehiclepushDataPositionlongDoesNotHaveValue));
-
-
-            if (!data.Timestamp.HasValue)
-                errors.Add(Error.CreateFrom(ErrorCodes.VehiclepushDataTimestampDoesNotHaveValue));
-        }
-        return errors;
-    }
 }

@@ -1,14 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TripAnalyzer.Api.Models.Requests;
+namespace Domain.Aggregate;
 
-public class VehiclePushDataPoint
+public class DataPoint
 {
-    public VehiclePushDataPoint()
-    {
-    }
-
-    public VehiclePushDataPoint(int? odometer, float? positionLat, float? positionLong, long? timestamp, int? fuelLevel)
+    public DataPoint(
+        int? odometer,
+        float? positionLat,
+        float? positionLong,
+        long? timestamp,
+        int? fuelLevel)
     {
         Odometer = odometer;
         PositionLat = positionLat;
@@ -21,30 +22,30 @@ public class VehiclePushDataPoint
     /// unix timestamp
     /// </summary>
     /// <value>unix timestamp</value>
-    public long? Timestamp { get; set; }
+    public long? Timestamp { get; }
 
     /// <summary>
     /// odometer value for a given time
     /// </summary>
     /// <value>odometer value for a given time</value>
-    public int? Odometer { get; set; }
+    public int? Odometer { get; }
 
     /// <summary>
     /// fuel level for a given time in percent
     /// </summary>
     /// <value>fuel level for a given time in percent</value>
     [Range(0, 100)]
-    public int? FuelLevel { get; set; }
+    public int? FuelLevel { get; }
 
     /// <summary>
     /// latitude position for a given time
     /// </summary>
     /// <value>latitude position for a given time</value>
-    public float? PositionLat { get; set; }
+    public float? PositionLat { get; }
 
     /// <summary>
     /// longitude position for a given time
     /// </summary>
     /// <value>longitude position for a given time</value>
-    public float? PositionLong { get; set; }
+    public float? PositionLong { get; }
 }
