@@ -30,6 +30,7 @@ This API Service is able to work with Json formatted input and it supports HTTP/
 - Swagger
 - NUnit
 - Moq
+- Google map api
 - Docker
 - Terraform
 - GitHub Actions
