@@ -47,7 +47,7 @@ jobs:
         working-directory: ./terraform
 
       - name: Save ECR name to Environment Variables
-        run: echo "ECR_NAME=$(terraform output -raw ecr_repository_name)' >> $GITHUB_ENV
+        run: echo "ECR_NAME=$(terraform output -raw ecr_repository_name)" >> $GITHUB_ENV
         working-directory: ./terraform
 
       - name: Login to Amazon ECR
