@@ -1,9 +1,9 @@
 # Trip Analyzer
 
 ## Deliverables
-- Using the specified [REST Endpoint](src\TripAnalyzer.Api\task-swagger.yml) which allows the client to Execute service call for Post.
-- using BasicAuth(name/password: demo/demo). Internal service [AuthenticationService](src\TripAnalyzer.Api\Middleware\AuthenticationService.cs) is created to handle authentication and it can be extended.
-- Using Docker to run an application 
+- Using the specified [REST Endpoint](src/TripAnalyzer.Api/task-swagger.yml) which allows the client to Execute service call for Post.
+- using BasicAuth(name/password: demo/demo). Internal service [AuthenticationService](src/TripAnalyzer.Api/Middleware\AuthenticationService.cs) is created to handle authentication and it can be extended.
+- Using Docker to run an application
   * run command
 ``` docker-compose up --build ```
 - Using C# language & .Net Core
@@ -11,14 +11,14 @@
   * AWS
   * Using Terraform
   * Using GitHub Actions
-- [google apis](src\TripAnalyzer.Api\GoogleApiClient\GoogleApiClient.cs) is using to determine the city name for depature and destination
+- [google apis](src/TripAnalyzer.Api/GoogleApiClient\GoogleApiClient.cs) is using to determine the city name for depature and destination
 - Provide a link to the secured hosted instance of your solution together with a username and a password.
   * using AWS.
   * GitHub actions can deploy at any time to My AWS Account.
   * Run [bootstrap work flow at Github](https://github.com/amabdelmongy/trip-analyzer/actions/workflows/bootstrap.yml)
 - Provide the following files together with your code in the github repository&#58;
   * [Dockerfile](docker-compose.yml)
-  * Build-Script just run 
+  * Build-Script just run
     * `dotnet build "src/TripAnalyzer.Api/TripAnalyzer.Api.csproj"`
   * [Deployment-Script](.github\workflows\bootstrap.yml)
   * [Infrastructure automation scripts](terraform\main.tf)
@@ -59,14 +59,14 @@ Could scale to 5 tasks and start by 2 tasks. It appended on the Internet Gateway
 
 The services deployed in the private subnet will use the NAT Gateway in order to connect to services outside of the VPC. The application is highly available, because it is deployed in two different availability zones.
 - AWS Print Screens
-  * [VPC](assets\img\vpc.PNG)
-  * [ALB](assets\img\alb.PNG) [ALB](assets\img\alb-2.PNG)
-  * [ECS](assets\img\clusters-ecs.PNG)
-  * [ECR](assets\img\ecr.PNG)
-  * [ECS Auto scaling](assets\img\ecs-autoscalling.PNG)
-  * [ECR image](assets\img\ecr-image.PNG)
+  * [VPC](/assets/img/vpc.PNG)
+  * [ALB](/assets/img/alb.PNG) [ALB](/assets/img/alb-2.PNG)
+  * [ECS](/assets/img/clusters-ecs.PNG)
+  * [ECR](/assets/img/ecr.PNG)
+  * [ECS Auto scaling](/assets/img/ecs-autoscalling.PNG)
+  * [ECR image](/assets/img/ecr-image.PNG)
 
-## GitHub Action [Print Screen](assets\img\GitHub-actions.PNG)
+## GitHub Action [Print Screen](/assets/img/GitHub-actions.PNG)
 
 This repository is meant to be managed through GitHub Action as the main CI/CD pipeline.
 
@@ -98,8 +98,8 @@ For the third command `terraform apply` you need to press yes, if the plan looks
 The Onion Architecture is an Architectural Pattern that enables maintainable and evolutionary enterprise systems.
 
 * Api contains
-  - [trip controller](src\TripAnalyzer.Api\Controller\v1\TripController.cs)
-  - [Google map Api client](src\TripAnalyzer.Api\GoogleApiClient\GoogleApiClient.cs)
+  - [trip controller](src/TripAnalyzer.Api/Controller\v1\TripController.cs)
+  - [Google map Api client](src/TripAnalyzer.Api/GoogleApiClient\GoogleApiClient.cs)
 * Domain layer contains all logic
   - [Aggregate](src\Domain\Aggregate\VehiclePushAnalysisAggregate.cs)
 
@@ -209,13 +209,13 @@ Using API url Post action ```/v1/trip```
 
 Postman print screens
 * Http status :-
-  - [200](assets\img\ok.PNG) [Response](assets\img\ok_response.PNG)
-  - [400](assets\img\error_400.PNG)
-  - [400](assets\img\error_400_1.PNG)
-  - [400](assets\img\error_400_2.PNG)
-  - [400](assets\img\error_400_3.PNG)
-* [Health](assets\img\health.PNG)
-* [Auth](assets\img\header.PNG)
+  - [200](/assets/img/ok.PNG) [Response](/assets/img/ok_response.PNG)
+  - [400](/assets/img/error_400.PNG)
+  - [400](/assets/img/error_400_1.PNG)
+  - [400](/assets/img/error_400_2.PNG)
+  - [400](/assets/img/error_400_3.PNG)
+* [Health](/assets/img/health.PNG)
+* [Auth](/assets/img/header.PNG)
 
 
 ## ToDo
