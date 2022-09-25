@@ -43,7 +43,7 @@ jobs:
 
       - name: Terraform Apply ECR
         id: apply-partial
-        run: terraform apply -auto-approve -target=aws_ecr_repository.instance
+        run: terraform apply -auto-approve -target=module.ecr.aws_ecr_repository.instance
         working-directory: ./terraform
 
       - name: Save ECR name to Environment Variables
