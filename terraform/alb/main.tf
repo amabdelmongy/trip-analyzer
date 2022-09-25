@@ -6,7 +6,7 @@ resource "aws_lb" "main" {
   subnets            = var.public_subnets
 
   enable_deletion_protection = false
-  tags = var.tags
+  tags                       = var.tags
 }
 
 resource "aws_security_group" "alb" {

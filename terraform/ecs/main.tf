@@ -1,5 +1,6 @@
 resource "aws_ecs_cluster" "this" {
   name = "${var.prefix}-${var.environment}"
+  tags = var.tags
 }
 
 resource "aws_security_group" "trip-analyzer" {
@@ -15,9 +16,9 @@ resource "aws_security_group" "trip-analyzer" {
   }
 
   ingress {
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
@@ -25,19 +26,19 @@ resource "aws_security_group" "trip-analyzer" {
 }
 
 resource "aws_ecs_service" "this" {
-  name             = "${var.prefix}-${var.environment}"
-  cluster          = aws_ecs_cluster.this.id
-  task_definition  = aws_ecs_task_definition.this.arn
-  desired_count    = var.desired_count
-  launch_type      = "FARGATE"
-  platform_version = "1.4.0"
+  name                               = "${var.prefix}-${var.environment}"
+  cluster                            = aws_ecs_cluster.this.id
+  task_definition                    = aws_ecs_task_definition.this.arn
+  desired_count                      = var.desired_count
+  launch_type                        = "FARGATE"
+  platform_version                   = "1.4.0"
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
   network_configuration {
-    security_groups = [ var.security_group_vpc,
-                        var.aws_security_group_alb_id,
-                        aws_security_group.trip-analyzer.id]
-    subnets         = var.private_subnets
+    security_groups = [var.security_group_vpc,
+      var.aws_security_group_alb_id,
+    aws_security_group.trip-analyzer.id]
+    subnets          = var.private_subnets
     assign_public_ip = false
   }
 
@@ -46,7 +47,7 @@ resource "aws_ecs_service" "this" {
     container_name   = "trip-analyzer"
     container_port   = 80
   }
-
+  tags = var.tags
 }
 
 resource "aws_ecs_task_definition" "this" {
@@ -58,21 +59,22 @@ resource "aws_ecs_task_definition" "this" {
   cpu                      = var.task_cpu
   memory                   = var.task_memory
   container_definitions = jsonencode([{
-      name  = "trip-analyzer"
-      image = join("@", [var.aws_ecr_repository_url, var.aws_ecr_image_digest])
-      portMappings = [
-        {
-          containerPort: 80,
-          protocol: "tcp",
-          hostPort: 80
-        }
+    name  = "trip-analyzer"
+    image = join("@", [var.aws_ecr_repository_url, var.aws_ecr_image_digest])
+    portMappings = [
+      {
+        containerPort : 80,
+        protocol : "tcp",
+        hostPort : 80
+      }
     ]
-    }])
+  }])
+  tags = var.tags
 }
 
 resource "aws_appautoscaling_target" "instance" {
   max_capacity       = 5
-  min_capacity       = 1
+  min_capacity       = 2
   resource_id        = "service/${aws_ecs_cluster.this.name}/${aws_ecs_service.this.name}"
   service_namespace  = "ecs"
   scalable_dimension = "ecs:service:DesiredCount"
