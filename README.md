@@ -2,7 +2,7 @@
 
 ## Deliverables
 - Using the specified [REST Endpoint](src/TripAnalyzer.Api/task-swagger.yml) which allows the client to Execute service call for Post.
-- using BasicAuth(name/password: demo/demo). Internal service [AuthenticationService](src/TripAnalyzer.Api/Middleware\AuthenticationService.cs) is created to handle authentication and it can be extended.
+- using BasicAuth(name/password: demo/demo). Internal service [AuthenticationService](src/TripAnalyzer.Api/Middleware/AuthenticationService.cs) is created to handle authentication and it can be extended.
 - Using Docker to run an application
   * run command
 ``` docker-compose up --build ```
@@ -11,7 +11,7 @@
   * AWS
   * Using Terraform
   * Using GitHub Actions
-- [google apis](src/TripAnalyzer.Api/GoogleApiClient\GoogleApiClient.cs) is using to determine the city name for depature and destination
+- [google apis](src/TripAnalyzer.Api/GoogleApiClient/GoogleApiClient.cs) is using to determine the city name for depature and destination
 - Provide a link to the secured hosted instance of your solution together with a username and a password.
   * using AWS.
   * GitHub actions can deploy at any time to My AWS Account.
@@ -20,8 +20,8 @@
   * [Dockerfile](docker-compose.yml)
   * Build-Script just run
     * `dotnet build "src/TripAnalyzer.Api/TripAnalyzer.Api.csproj"`
-  * [Deployment-Script](.github\workflows\bootstrap.yml)
-  * [Infrastructure automation scripts](terraform\main.tf)
+  * [Deployment-Script](.github/workflows/bootstrap.yml)
+  * [Infrastructure automation scripts](terraform/main.tf)
   * README.md with documentation how to deploy the infrastructure and the application
 This API Service is able to work with Json formatted input and it supports HTTP/HTTPS as messaging protocol.
 
@@ -98,10 +98,10 @@ For the third command `terraform apply` you need to press yes, if the plan looks
 The Onion Architecture is an Architectural Pattern that enables maintainable and evolutionary enterprise systems.
 
 * Api contains
-  - [trip controller](src/TripAnalyzer.Api/Controller\v1\TripController.cs)
-  - [Google map Api client](src/TripAnalyzer.Api/GoogleApiClient\GoogleApiClient.cs)
+  - [trip controller](src/TripAnalyzer.Api/Controller/v1/TripController.cs)
+  - [Google map Api client](src/TripAnalyzer.Api/GoogleApiClient/GoogleApiClient.cs)
 * Domain layer contains all logic
-  - [Aggregate](src\Domain\Aggregate\VehiclePushAnalysisAggregate.cs)
+  - [Aggregate](src/Domain/Aggregate/VehiclePushAnalysisAggregate.cs)
 
 ### Unit tests
  It validates if that code results in the expected state (state testing) or executes the expected sequence of events (behavior testing).
