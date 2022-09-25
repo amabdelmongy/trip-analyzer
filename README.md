@@ -1,23 +1,25 @@
 # Trip Analyzer
 
 ## Deliverables
-- Implemented the specified [REST Endpoint](assets/architecture/architecture.svg) which allows the client to Execute service call for Post. aws Url/v1/trip 
-- BasicAuth using (name/password: demo/demo). Internal service [AuthenticationService](src\TripAnalyzer.Api\Middleware\AuthenticationService.cs) is created to handle authentication and it can be extended.
-- Use Docker to run your application run command
+- Using the specified [REST Endpoint](src\TripAnalyzer.Api\task-swagger.yml) which allows the client to Execute service call for Post.
+- using BasicAuth(name/password: demo/demo). Internal service [AuthenticationService](src\TripAnalyzer.Api\Middleware\AuthenticationService.cs) is created to handle authentication and it can be extended.
+- Using Docker to run an application 
+  * run command
 ``` docker-compose up --build ```
 - Using C# language & .Net Core
 - Automate the infrastructure rollout
   * AWS
   * Using Terraform
   * Using GitHub Actions
-- [google apis](src\TripAnalyzer.Api\GoogleApiClient\GoogleApiClient.cs) is used to determine the city name for depature and destination
+- [google apis](src\TripAnalyzer.Api\GoogleApiClient\GoogleApiClient.cs) is using to determine the city name for depature and destination
 - Provide a link to the secured hosted instance of your solution together with a username and a password.
-  * I used AWS.
+  * using AWS.
   * GitHub actions can deploy at any time to My AWS Account.
   * Run [bootstrap work flow at Github](https://github.com/amabdelmongy/trip-analyzer/actions/workflows/bootstrap.yml)
 - Provide the following files together with your code in the github repository&#58;
   * [Dockerfile](docker-compose.yml)
-  * Build-Script just run `dotnet build "src/TripAnalyzer.Api/TripAnalyzer.Api.csproj"`
+  * Build-Script just run 
+    * `dotnet build "src/TripAnalyzer.Api/TripAnalyzer.Api.csproj"`
   * [Deployment-Script](.github\workflows\bootstrap.yml)
   * [Infrastructure automation scripts](terraform\main.tf)
   * README.md with documentation how to deploy the infrastructure and the application
@@ -55,9 +57,15 @@ The Appliaction Load Balancer to scale in and scale out depend on CPU usage.
 Could scale to 5 tasks and start by 2 tasks. It appended on the Internet Gateway, will forward incoming HTTP requests to the Fargate tasks.
 
 The services deployed in the private subnet will use the NAT Gateway in order to connect to services outside of the VPC. The application is highly available, because it is deployed in two different availability zones.
+- AWS Print Screens
+  * [VPC](assets\img\vpc.PNG)
+  * [ALB](assets\img\alb.PNG) [ALB](assets\img\alb-2.PNG)
+  * [ECS](assets\img\clusters-ecs.PNG)
+  * [ECR](assets\img\ecr.PNG)
+  * [ECS Auto scaling](assets\img\ecs-autoscalling.PNG)
+  * [ECR image](assets\img\ecr-image.PNG)
 
-
-## GitHub Action
+## GitHub Action [Print Screen](assets\img\GitHub-actions.PNG)
 
 This repository is meant to be managed through GitHub Action as the main CI/CD pipeline.
 
@@ -68,6 +76,8 @@ Subsequent changes can be applied by running the [push_to_ecr](.github/workflows
 Docker Image is published to S3 Then Fargate is usign this image.
 
 I am using GitHub Actions to lay the CI/CD groundwork to automatically deploy application changes to ECR and redeploy the ECS cluster with updates.
+
+Run [bootstrap work flow at Github](https://github.com/amabdelmongy/trip-analyzer/actions/workflows/bootstrap.yml)
 
 ## Terraform
 ### Manual run of terraform commands
@@ -96,8 +106,20 @@ The Onion Architecture is an Architectural Pattern that enables maintainable and
  It validates if that code results in the expected state (state testing) or executes the expected sequence of events (behavior testing).
  It covers a lot of code areas.
 
+
+  How to run unit tests
+```
+    dotnet test "tests/Domain.UnitTest/Domain.UnitTest.csproj"
+```
 ### Integration tests
-individual software modules are combined and tested as a group
+individual software modules are combined and tested as a group.
+
+
+How to run integration tests
+
+```
+    dotnet test "tests/TripAnalyzer.Api.Integration.Test/TripAnalyzer.Api.Integration.Test.csproj"
+```
 
 ### Swagger documentation
   - Swagger generate file for last version of api under this link ```/swagger/v1/swagger.json```
@@ -108,10 +130,18 @@ the file docker-compose.yml will be under api folder direct.
 ```
     docker-compose up --build
 ```
+##  How to build the code
+```
+    dotnet build "src/TripAnalyzer.Api/TripAnalyzer.Api.csproj"
+```
 
 ## Excute the code 
-BasicAuth name/password: demo/demo.
+Use BasicAuth name/password: demo/demo
+
+
 Using API url Post action ```/v1/trip```
+
+
   Input
 ```
   {
@@ -176,6 +206,18 @@ Using API url Post action ```/v1/trip```
 }
 ```
 
+Postman print screens
+* Http status :-
+  - [200](assets\img\ok.PNG) [Response](assets\img\ok_response.PNG)
+  - [400](assets\img\error_400.PNG)
+  - [400](assets\img\error_400_1.PNG)
+  - [400](assets\img\error_400_2.PNG)
+  - [400](assets\img\error_400_3.PNG)
+* [Health](assets\img\health.PNG)
+* [Auth](assets\img\header.PNG)
+
+
 ## ToDo
 1. Add more unit tests and E2E tests
 2. Add more functionallity from Google map like for every location for every break.
+3. Add Prod config files to terraform and github actions
